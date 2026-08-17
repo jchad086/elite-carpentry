@@ -889,7 +889,19 @@ def build_meta_files():
                f"{urls}\n</urlset>\n")
     _put("sitemap.xml", sitemap)
 
-    _put("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {S.BASE}/sitemap.xml\n")
+    # GitHub Pages serves EVERY file in the repo, including the build scripts,
+    # this README and the dotfiles — there is no server config to hide them.
+    # They are already public on GitHub, so this is not a disclosure, but they
+    # have no business turning up in a search result for the company. Keep the
+    # site itself fully crawlable and fence off the rest.
+    _put("robots.txt",
+         "User-agent: *\n"
+         "Allow: /\n"
+         "Disallow: /tools/\n"
+         "Disallow: /README.md\n"
+         "Disallow: /NOTES.local.md\n"
+         "\n"
+         f"Sitemap: {S.BASE}/sitemap.xml\n")
 
     _put("site.webmanifest", json.dumps({
         "name": S.NAME_TEXT,

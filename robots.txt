@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /tools/
+Disallow: /README.md
+Disallow: /NOTES.local.md
 
 Sitemap: https://www.elite-carpentry.ca/sitemap.xml
