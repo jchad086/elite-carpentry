@@ -1,0 +1,37 @@
+.DS_Store
+__pycache__/
+
+# --- Private working notes ---------------------------------------------------
+# This repo is PUBLIC. The launch checklist, commercial context, client-specific
+# notes and anything candid live in NOTES.local.md and must stay out of it.
+NOTES.local.md
+
+# --- Throwaway preview pages -------------------------------------------------
+logo-preview.html
+logo-proposal.html
+logo-inplace.html
+logo-proposal2.html
+
+# --- Source masters: NOT in the repo, deliberately ---------------------------
+# GitHub Pages serves everything a repo contains, so anything committed here is
+# publicly downloadable from www.elite-carpentry.ca. Neither of these is needed
+# to build or serve the site — the generated derivatives are committed — and
+# both carry reasons not to publish them:
+#
+#   elitelogo/   the designer's package (EPS, PDF, SVG, PNG, JPG). 356 MB, and
+#                the EPS alone is 333 MB — past GitHub's 100 MB per-file hard
+#                limit, so committing it would fail the push outright. It is the
+#                print and signage archive; it belongs in the client's own file
+#                store, not in a web repo.
+#
+#   originals/   full-resolution job photo masters, ~27 MB. Includes five
+#                photographs deliberately NOT published (see UNUSED in
+#                tools/content_projects.py) and the full-size original of Jake's
+#                family photo. The client approved the 480px crop appearing on
+#                the site; committing the master publishes more than that.
+#
+# KEEP LOCAL BACKUPS. A fresh clone can build and serve the whole site, but it
+# cannot regenerate images from source without these. tools/brand-assets.py and
+# tools/project-photos.py both fail with a clear message if they are missing.
+assets/img/brand/elitelogo/
+assets/img/photos/originals/
