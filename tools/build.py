@@ -876,8 +876,29 @@ def build_404():
 # Non-HTML files
 # ---------------------------------------------------------------------------
 
+def _lastmod():
+    """Date of the last commit that changed the site.
+
+    Not today's date: rebuilding without editing anything would then advance
+    every <lastmod> and tell Google the whole site changed when it did not.
+    Google discounts a sitemap whose dates it learns not to trust. Not a
+    hardcoded literal either — that was the previous approach and it silently
+    went five days stale.
+    """
+    try:
+        import subprocess
+        d = subprocess.run(["git", "log", "-1", "--format=%cd", "--date=short"],
+                           cwd=ROOT, capture_output=True, text=True, timeout=5)
+        if d.returncode == 0 and d.stdout.strip():
+            return d.stdout.strip()
+    except Exception:
+        pass
+    import datetime
+    return datetime.date.today().isoformat()
+
+
 def build_meta_files():
-    lastmod = "2026-08-12"
+    lastmod = _lastmod()
     urls = "\n".join(
         f"  <url>\n    <loc>{S.BASE}/{p}</loc>\n"
         f"    <lastmod>{lastmod}</lastmod>\n"
