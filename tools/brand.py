@@ -48,14 +48,11 @@ PHONE_DISPLAY = "(343) 370-4191"
 PHONE_E164 = "+1-343-370-4191"
 PHONE_HREF = "tel:+13433704191"
 
-# The published address, and the Formspree recipient. Changed twice on
-# 2026-08-17 before settling here; the earlier addresses were on a domain with
-# no mail on it yet, and this one works today.
-#
-# There is a note in NOTES.local.md about revisiting this once the domain has
-# mail, and about how Outlook treats form relays. Not repeated here — this file
-# is public.
-EMAIL = "jwmart03@hotmail.com"
+# The published address, and the address the Formspree form should deliver to.
+# Moved onto the domain 2026-09-30, once elite-carpentry.ca had a mailbox —
+# earlier addresses sat on a domain with no mail routing, which is why the site
+# ran on webmail until now. Confirmed by the owner as live and tested.
+EMAIL = "jake@elite-carpentry.ca"
 
 CITY = "Cornwall"
 REGION = "ON"
@@ -84,25 +81,31 @@ PLACEHOLDERS = {}
 # client's leads into someone else's inbox. main.js detects the placeholder and
 # shows the error state rather than silently dropping a lead.
 #
-# The form ID cannot be generated from here — it only exists once somebody signs
-# in at formspree.io and creates the form. To finish it:
+# None of this can be set from here: where the form delivers lives in the
+# Formspree dashboard, not in this repo. Editing EMAIL above changes what the
+# site PUBLISHES and nothing else.
 #
-#   1. Sign in (or sign up) at formspree.io as Elite Carpentry.
-#   2. New Form. Set the recipient to FORM_RECIPIENT below, exactly.
-#   3. Confirm the address from the verification email Formspree sends to it —
-#      Formspree will not deliver anything until that is done. CHECK JUNK, and
-#      keep checking it for the first few real leads: mail providers filter form
-#      relays hard, and a quote request in a junk folder is a lost customer.
-#   4. Copy the ID out of the endpoint it gives you: the xxxxxxxx in
-#      https://formspree.io/f/xxxxxxxx
-#   5. Paste it into FORMSPREE_ID, rebuild, then SEND A TEST from the live form
-#      and confirm it lands. Do not take the absence of an error as delivery.
-#   6. Mark formspree.io a safe sender in the receiving mailbox.
+# ⚠️ CHANGING THE DELIVERY ADDRESS (the situation on 2026-09-30):
+#   1. formspree.io -> form FORMSPREE_ID below -> set recipient to
+#      FORM_RECIPIENT, exactly.
+#   2. Open the verification email Formspree sends to the NEW address and click
+#      it. Until that happens Formspree keeps delivering to the old recipient,
+#      with no error anywhere — the site advertises one address while leads
+#      arrive at another.
+#   3. Submit the live form and confirm it lands. Check spam: providers filter
+#      form relays, and a quote request in a spam folder is a lost customer who
+#      thinks they were ignored.
+#   4. Mark formspree.io a safe sender in the receiving mailbox.
+#
+# STARTING FROM SCRATCH instead: sign in at formspree.io, create a form with
+# FORM_RECIPIENT as the recipient, do step 2, then copy the xxxxxxxx out of
+# https://formspree.io/f/xxxxxxxx into FORMSPREE_ID and rebuild.
 #
 # FORM_RECIPIENT is recorded here so the destination is unambiguous, and so it
-# is obvious if it ever drifts from the address published on the site.
+# is obvious if it ever drifts from the address published on the site. It is
+# only a record of intent — it does not configure anything.
 FORM_RECIPIENT = EMAIL
-FORMSPREE_ID = "xzepjyvz"       # supplied 2026-08-17
+FORMSPREE_ID = "xzepjyvz"       # supplied 2026-08-17; recipient repointed 2026-09-30
 FORM_ACTION = f"https://formspree.io/f/{FORMSPREE_ID}"
 FORM_SUBJECT = "New quote request — Elite Carpentry"
 
