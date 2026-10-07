@@ -919,6 +919,7 @@ def build_meta_files():
          "User-agent: *\n"
          "Allow: /\n"
          "Disallow: /tools/\n"
+         "Disallow: /assets/print/\n"
          "Disallow: /README.md\n"
          "Disallow: /NOTES.local.md\n"
          "\n"
