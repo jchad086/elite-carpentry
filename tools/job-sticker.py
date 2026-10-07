@@ -113,8 +113,10 @@ def seal(dark=True):
 
 # --- B: the completion plate -------------------------------------------------
 # An inspection tag, not a badge. Hazard stripes top and bottom tie it to the
-# site, and the date line is the point: a dated plate is evidence of when the
-# work was signed off, which is what a buyer's inspector actually wants.
+# site, and "WORK COMPLETED" states the thing outright rather than implying it
+# through a crest. Carried a hand-written date line until 2026-10-07; the owner
+# took it out in favour of the website, so the contact block is now phone over
+# web with nothing to fill in on site.
 
 def plate():
     img = base(dark=True)
@@ -124,24 +126,23 @@ def plate():
     K.hazard(d, W, BLEED, BLEED + 26)
     K.hazard(d, W, H - BLEED - 26, H - BLEED)
 
-    K.TT(d, (0, 112), "WORK COMPLETED", K.font(K.DISP, K.pt(11.5)), K.RED_LIFT,
+    K.TT(d, (0, 118), "WORK COMPLETED", K.font(K.DISP, K.pt(11.5)), K.RED_LIFT,
          space=4, centre=CX)
 
     mark = K.logo_part(K.MARK_BOX, 140)
-    img.alpha_composite(mark, (CX - mark.width // 2, 158))
+    img.alpha_composite(mark, (CX - mark.width // 2, 168))
 
     word = K.logo_part(K.WORD_BOX, 52)
-    img.alpha_composite(word, (CX - word.width // 2, 314))
+    img.alpha_composite(word, (CX - word.width // 2, 322))
 
-    K.chrome_rule(d, L, 396, R, 2)
+    K.chrome_rule(d, L, 410, R, 2)
 
-    # The date line is the reason this option exists — a dated plate is what a
-    # buyer's inspector actually wants years later. Label is CHROME2, not a
-    # murky grey, because somebody has to write on it in a dim crawlspace.
-    K.TT(d, (L, 420), "DATE", K.font(K.DISP, K.pt(8.5)), K.CHROME2, space=2)
-    d.line([(L + 86, 452), (R, 452)], fill=K.CHROME4, width=2)
-
-    K.T(d, (0, 486), PHONE, K.font(K.BODYB, K.pt(12.5)), K.CHROME1, centre=CX)
+    # Phone above web, and bigger. Somebody who finds this on a joist in ten
+    # years wants to call, not to type a URL — and the number is the thing that
+    # still works if the domain ever lapses.
+    K.T(d, (0, 438), PHONE, K.font(K.BODYB, K.pt(12.5)), K.CHROME1, centre=CX)
+    K.TT(d, (0, 506), WEB.upper(), K.font(K.DISP, K.pt(9)), K.CHROME3,
+         space=3, centre=CX)
 
     K.check("plate", SAFE)
     return img
