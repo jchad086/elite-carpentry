@@ -476,6 +476,14 @@ body.nav-open .site-nav { transform: translateX(0); visibility: visible; }
   .cols-3 { grid-template-columns: repeat(3, 1fr); }
   .cols-4 { grid-template-columns: repeat(4, 1fr); }
 }
+/* A lone card on the last row (seven services in a 2- or 3-up grid) spans the
+   row rather than sitting in one column beside an empty gap. */
+@media (min-width: 680px) and (max-width: 999px) {
+  .cols-3 > :last-child:nth-child(odd) { grid-column: 1 / -1; }
+}
+@media (min-width: 1000px) {
+  .cols-3 > :last-child:nth-child(3n+1) { grid-column: 1 / -1; }
+}
 
 .card {
   position: relative;

@@ -16,7 +16,8 @@ purpose of a trust-led site — do not do it.
 
 STOCK IS A PLACEHOLDER, AND IT IS RETREATING. Decks, bathrooms and kitchens now
 run on the owner's own photographs; those three entries were deleted from this
-file and the files removed. Only fencing, siding and windows are left. When a
+file and the files removed. Fencing, siding and windows are left, plus
+accessibility, which was added with that page and has no real photo yet. When a
 real photo arrives for one of them, add it to tools/content_projects.py with a
 `service` key, then delete the entry here and the file it fetched.
 
@@ -41,7 +42,11 @@ OUT = os.path.join(ROOT, "assets", "img", "photos")
 TARGET_W = 1400
 TARGET_RATIO = 16 / 10
 
-# (filename, unsplash id, photographer, alt text, where it is used)
+# (filename, unsplash id, photographer, alt text, where it is used[, crop bias])
+#
+# The optional crop bias is where the 16:10 cut sits in a portrait frame
+# (0 = keep the top, 1 = keep the bottom). The default 0.35 keeps rooflines; a
+# frame with a person in it may need a different value so the head survives.
 PHOTOS = [
     ("fence.jpg", "EE2R5Mh9Dro", "Unsplash contributor",
      "A wooden privacy fence with a lattice topper and a diagonally braced gate",
@@ -53,6 +58,12 @@ PHOTOS = [
      "A dark green clapboard house with white-trimmed double-hung windows, a covered "
      "front porch and a magnolia in bloom",
      "services/windows"),
+    # Set by rendering 0.25 / 0.30 / 0.35 and looking: 0.35 clips her head at
+    # the top edge, 0.25 loses the wheelchair, which is the point of the frame.
+    ("accessibility.jpg", "rUW_SiE512U", "CDC",
+     "A woman in a wheelchair pulled up to a kitchen counter, with wood-trimmed "
+     "cabinets and an electric range behind her",
+     "services/accessibility-renovations", 0.30),
 ]
 
 # Rejected after visual review — kept here so nobody re-picks them:
@@ -78,7 +89,7 @@ PHOTOS = [
 URL = "https://unsplash.com/photos/{id}/download?w=1600"
 
 
-def fetch(name, photo_id):
+def fetch(name, photo_id, bias=0.35):
     dest = os.path.join(OUT, name)
     cmd = ["curl", "-sS", "-L", "--max-time", "45", "-o", dest,
            "-w", "%{http_code} %{size_download}", URL.format(id=photo_id)]
@@ -88,10 +99,10 @@ def fetch(name, photo_id):
     code, size = res.stdout.split()
     if code != "200" or int(size) < 20000:
         return None, f"HTTP {code}, {size} bytes"
-    return optimise(dest), None
+    return optimise(dest, bias), None
 
 
-def optimise(path):
+def optimise(path, bias=0.35):
     """Centre-crop to 16:10, cap the width, and write matching JPEG + WebP.
 
     The page renders these in a fixed 16:10 box, so cropping here rather than
@@ -105,7 +116,7 @@ def optimise(path):
         img = img.crop((left, 0, left + new_w, h))
     else:                                          # too tall — trim top/bottom,
         new_h = int(w / TARGET_RATIO)              # biased upward so horizons
-        top = int((h - new_h) * 0.35)              # and rooflines survive
+        top = int((h - new_h) * bias)              # and rooflines survive
         img = img.crop((0, top, w, top + new_h))
 
     if img.width > TARGET_W:
@@ -120,8 +131,8 @@ def main():
     os.makedirs(OUT, exist_ok=True)
     print("Fetching photos:")
     rows, failed = [], 0
-    for name, pid, who, alt, used in PHOTOS:
-        size, err = fetch(name, pid)
+    for name, pid, who, alt, used, *bias in PHOTOS:
+        size, err = fetch(name, pid, *bias)
         if err:
             print(f"  ✗ {name}: {err}")
             failed += 1

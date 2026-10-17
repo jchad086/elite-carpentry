@@ -263,7 +263,7 @@ def build_home():
 
 {C.trust_bar()}
 
-{C.service_grid(heading="Six trades, one crew",
+{C.service_grid(heading="Everything we build, one crew",
                 intro="Exterior and interior work across Cornwall, Akwesasne and SD&amp;G. "
                       "Every one of these is quoted in writing and itemised.",
                 dark=True)}
@@ -341,7 +341,7 @@ def build_services_hub():
     trail = [("Home", "/"), ("Services", "/services/")]
     body = f'''
 {C.page_hero("Services", "Carpentry &amp; Renovation Services in Cornwall",
-             "Six things we do properly, rather than everything done adequately. Exterior "
+             "Seven things we do properly, rather than everything done adequately. Exterior "
              "and interior work across Cornwall, Akwesasne and Stormont, Dundas and Glengarry.",
              trail, quote_href="/contact/")}
 
@@ -392,8 +392,8 @@ def build_services_hub():
     ]
     write("services/", doc(
         "Renovation Services in Cornwall ON | Elite Carpentry",
-        "Decks, fencing, siding, windows, bathroom and kitchen renovations in Cornwall, "
-        "Akwesasne and SD&G. Licensed, insured, free written quotes.",
+        "Decks, fencing, siding, windows, bathrooms, kitchens and accessibility renovations "
+        "in Cornwall, Akwesasne and SD&G. Licensed, insured, free quotes.",
         "services/", body, graph, "/services/"), priority="0.9")
 
 
@@ -415,7 +415,21 @@ def build_service(slug):
 </div>''' for name, body, bullets in d["options"])
 
     c_head, c_body = d["callout"]
-    faq_html, faq_ld = C.faq_section(d["faqs"], f"{d['nav']}: common questions")
+    # Optional per-service overrides. `topic` names the subject in section
+    # headings where the short nav label reads badly ("Accessibility across…").
+    topic = d.get("topic", d["nav"])
+    faq_html, faq_ld = C.faq_section(d["faqs"], f"{topic}: common questions")
+
+    # The default quote heading drops a plural "s" ("decks" -> "deck project"),
+    # which only some nav labels want.
+    noun = C.plain(d["nav"]).lower()
+    if slug not in ("bathroom-renovations", "kitchen-renovations"):
+        noun = noun.rstrip("s")
+    quote_head = d.get("quote_head", f"Get a free quote for your {noun} project")
+    cta_head, cta_body = d.get("cta", (
+        "Prefer to talk it through first?",
+        "Call us and describe what you are dealing with. We will tell you honestly "
+        "whether it is a job worth doing now."))
 
     body = f'''
 {C.page_hero(d["eyebrow"], d["h1"], d["lead"], trail)}
@@ -461,21 +475,16 @@ def build_service(slug):
   </div>
 </section>
 
-{C.location_grid(heading=f"{d['nav']} across Cornwall &amp; SD&amp;G")}
+{C.location_grid(heading=f"{topic} across Cornwall &amp; SD&amp;G")}
 
 {faq_html}
 
 {C.quote_form(f"Service: {C.plain(d['nav'])}", compact=False,
-              heading=f"Get a free quote for your {C.plain(d['nav']).lower().rstrip('s')} project"
-              if slug not in ("bathroom-renovations", "kitchen-renovations")
-              else f"Get a free quote for your {C.plain(d['nav']).lower()} project",
-              preselect=slug)}
+              heading=quote_head, preselect=slug)}
 
 {C.service_grid(exclude=slug, heading="Other things we do", dark=True)}
 
-{C.cta_band("Prefer to talk it through first?",
-            "Call us and describe what you are dealing with. We will tell you honestly "
-            "whether it is a job worth doing now.")}
+{C.cta_band(cta_head, cta_body)}
 '''
     graph = [
         C.breadcrumb_ld(trail),

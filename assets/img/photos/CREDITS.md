@@ -16,3 +16,4 @@ Regenerate with `python3 tools/fetch-photos.py`.
 | `fence.jpg` | https://unsplash.com/photos/EE2R5Mh9Dro | Unsplash contributor | A wooden privacy fence with a lattice topper and a diagonally braced gate | /services/fencing/ |
 | `siding.jpg` | https://unsplash.com/photos/CO052Aw0Z54 | Unsplash contributor | A two-storey house clad in grey lap siding with white trim and a cedar-shingled gable | /services/siding/ |
 | `windows.jpg` | https://unsplash.com/photos/dsu9V4MsRVw | Clay Banks | A dark green clapboard house with white-trimmed double-hung windows, a covered front porch and a magnolia in bloom | /services/windows/ |
+| `accessibility.jpg` | https://unsplash.com/photos/rUW_SiE512U | CDC | A woman in a wheelchair pulled up to a kitchen counter, with wood-trimmed cabinets and an electric range behind her | /services/accessibility-renovations/ |

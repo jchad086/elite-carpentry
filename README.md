@@ -23,7 +23,7 @@ Python and served from GitHub Pages.
 python3 tools/build.py
 ```
 
-Generates all 18 pages plus `sitemap.xml`, `robots.txt` and `site.webmanifest`,
+Generates all 19 pages plus `sitemap.xml`, `robots.txt` and `site.webmanifest`,
 then rewrites root-absolute paths to depth-correct relative ones.
 
 | Script | Purpose |
@@ -72,9 +72,9 @@ each of these protects it.
 ### The quote form
 
 Posts to the Formspree endpoint in `brand.FORM_ACTION`, delivering to
-`brand.FORM_RECIPIENT`. It appears on **13 pages** — contact, all six services, all six locations — and
+`brand.FORM_RECIPIENT`. It appears on **14 pages** — contact, all seven services, all six locations — and
 every copy is generated from `chrome.quote_section()`, so there is one form to
-maintain, not thirteen.
+maintain, not fourteen.
 
 Each copy carries a hidden `page` field naming its source (`Service: Decks`,
 `Location: Cornwall`, …). That is the only way to tell which page earned a lead
@@ -105,9 +105,9 @@ limit is before a busy spring.
 ### Stock is retreating, and that is the point
 
 Nine real photos are live: the home page carousel, and the lead figure on
-three of the six service pages. **Decks, bathrooms and kitchens run on the
+three of the seven service pages. **Decks, bathrooms and kitchens run on the
 owner's own work** — those three stock files were deleted, not left in the
-folder. Only **fencing, siding and windows** are still on stock.
+folder. **Fencing, siding, windows and accessibility** are still on stock.
 
 Retiring another one is a two-line job:
 
@@ -164,7 +164,7 @@ Pages other than `/about/` carry a name-only `founder` stub under the same
 `@id`, so no page ships a bare reference to a Person it does not describe.
 
 **Known, pre-dating this work:** the *business* node does not get the same
-treatment. `/about/` and the six service pages reference `{"@id": ".../#business"}`
+treatment. `/about/` and the seven service pages reference `{"@id": ".../#business"}`
 without defining it on the page — the service pages do it from `Service.provider`,
 which is the link that ties a service to the company. The node is fully defined
 on the home page and on every location page, and consumers that crawl the site
@@ -177,7 +177,8 @@ business is referenced but not defined.
 - Unique `<title>` and meta description per page; absolute canonical, OG and Twitter tags.
 - JSON-LD: `GeneralContractor` (home + per-location), `Service` (per service page), `FAQPage`, `BreadcrumbList`, `WebSite`, `ItemList`, `ContactPage`, `AboutPage`.
 - **Every FAQ schema entry mirrors a visible `<details>` block**, generated from one list in `chrome.faq_section()`. Invisible FAQ markup risks a manual action — do not decouple them.
-- No service × location cross-pages. 36 near-duplicate pages is a thin-content liability; the internal-linking mesh (every service page links all six locations, every location page links all six services, nav dropdowns link all twelve from every page) gets the coverage without it.
+- No service × location cross-pages. 36 near-duplicate pages is a thin-content liability; the internal-linking mesh (every service page links all six locations, every location page links all seven services, nav dropdowns link all thirteen from every page) gets the coverage without it.
+- Service pages take optional `topic`, `quote_head` and `cta` keys in `tools/content_services.py`, for when the short nav label reads badly in a heading ("Accessibility across…") or the page needs its own closing call to action. Leave them out and the defaults apply.
 - `sitemap.xml` is generated with the build. Update `lastmod` in `build_meta_files()` when content changes materially.
 
 ## Design

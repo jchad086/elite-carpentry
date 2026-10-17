@@ -139,6 +139,9 @@ SERVICES = [
      "Full gut-and-rebuild bathrooms, tub-to-shower conversions and accessible walk-ins."),
     ("kitchen-renovations", "Kitchens", "Kitchen renovations",
      "Layout changes, custom cabinetry, islands and finish carpentry done by one crew."),
+    ("accessibility-renovations", "Accessibility", "Accessibility renovations",
+     "Grab bars, railings, ramps, wider doorways and walk-in showers for aging in place "
+     "and wheelchair access."),
 ]
 
 SERVICE_SLUGS = [s[0] for s in SERVICES]
